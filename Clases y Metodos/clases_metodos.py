@@ -119,7 +119,7 @@ class Vendedor:
         return prod_a_buscar.buscar(self.lista_de_prod_para_vender)
 
 
-
+#comentario
 
 
 
