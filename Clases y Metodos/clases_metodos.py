@@ -120,10 +120,6 @@ class Vendedor:
 
 
 
-# Agregar un producto Martillo sin usar herencia(de la misma forma q hicimos mecha y fresa)
-# hacer los test unitarios para martillo
-# hacer metodo de busqueda
-# hacer el metodo __eq__ del martillo
 
 
 
