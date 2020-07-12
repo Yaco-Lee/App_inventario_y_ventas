@@ -8,14 +8,14 @@ class Interfaz_Producto:
     def buscar(self, lista_prod_para_vender: []):
         pass
 
-class Martillo():
-    def __init__(self, peso: int, uso: str, largo_mango: int, precio: int, id: int):
-        self.peso = peso
-        self.uso = uso
-        self.largo_mango = largo_mango
+class Caja_Armonizadora:
+    def __init__(self, tamaño: str, chakra: str, nota: int, precio: int, id: int):
+        self.tamaño = tamaño
+        self.chakra = chakra
         self.id = id
-        self.tipo = "Martillo"
+        self.tipo = "Caja Armonizadora"
         self.precio = precio
+        self.nota = nota
 
     def __eq__(self, other):
         id = self.id
@@ -26,21 +26,19 @@ class Martillo():
 
     def buscar(self, lista_prod_para_vender: []):
         for producto in lista_prod_para_vender:
-            if producto.tipo == self.tipo and producto.largo_mango == self.largo_mango and producto.peso == self.peso:
-                return "Tenemos este {} disponible".format(self.tipo)
+            if producto.tipo == self.tipo and producto.nota == self.nota and producto.tamaño == self.tamaño:
+                return "Tenemos esta {} en stock".format(self.tipo)
 
-        return "No tenemos ese {} disponible".format(self.tipo)
+        return "No tenemos esa {} en sotck".format(self.tipo)
 
 
-class Fresa:
-    def __init__(self, diametro: int, tipo_de_corte: str, vastago: int, precio: int, id: int):
-        self.diametro = diametro
-        self.tipo_de_corte = tipo_de_corte
-        self.vastago = vastago
-        self.marca = "Bosch"
+class Armonizador_Giratorio:
+    def __init__(self, cant_tubos: int, acorde: str, precio: int, id: int):
         self.precio = precio
         self.id = id
-        self.tipo = "Fresa"
+        self.acorde = acorde
+        self.cant_tubos = cant_tubos
+        self.tipo = "Armonizador Giratorio"
 
     def __eq__(self, other):
         id = self.id
@@ -52,21 +50,20 @@ class Fresa:
 
     def buscar(self, lista_prod_para_vender: []):
         for producto in lista_prod_para_vender:
-            if producto.tipo == self.tipo and producto.vastago == self.vastago and producto.tipo_de_corte == self.tipo_de_corte:
-                return "Tenemos {} disponible".format(self.tipo)
+            if producto.tipo == self.tipo and producto.cant_tubos == self.cant_tubos and producto.acorde == self.acorde:
+                return f"Tenemos este {self.tipo} disponible"
 
-        return "No tenemos {} disponible".format(self.tipo)
-
-
+        return f"No tenemos este {self.tipo} disponible"
 
 
-class Mecha:
-    def __init__(self, largo: int, diametro: int, uso: str, id: int, precio: int):
+
+
+class Stand_Campanas:
+    def __init__(self, cant_campanas: int, notas: [str], id: int, precio: int):
         self.id = id
-        self.largo = largo
-        self.diametro = diametro
-        self.uso = uso
-        self.tipo = "Mecha"
+        self.tipo = "Stand de Campanas"
+        self.cant_campanas = cant_campanas
+        self.notas = notas
         self.precio = precio
 
     def __eq__(self, other):
@@ -78,17 +75,37 @@ class Mecha:
 
     def buscar(self, lista_prod_para_vender: []):
         for producto in lista_prod_para_vender:
-            if producto.tipo == self.tipo and producto.largo == self.largo and producto.uso == self.uso:
-                return "Tenemos {} disponible".format(self.tipo)
+            if producto.tipo == self.tipo and producto.cant_campanas == self.cant_campanas and producto.notas == self.notas:
+                return f"Tenemos ese {self.tipo} disponible"
 
-        return f"No tenemos {self.tipo} disponible"
+        return f"No tenemos ese {self.tipo} disponible"
 
+class Campana_Individual:
+    def __init__(self, nota: str, id: int, precio: int):
+        self.id = id
+        self.tipo = "Campana"
+        self.nota = nota
+        self.precio = precio
+
+    def __eq__(self, other):
+        id = self.id
+        if id == other.id:
+            return True
+        else:
+            return False
+
+    def buscar(self, lista_prod_para_vender: []):
+        for producto in lista_prod_para_vender:
+            if producto.tipo == self.tipo and producto.nota == self.nota:
+                return f"Tenemos esa {self.tipo} disponible"
+
+        return f"No tenemos esa {self.tipo} disponible"
 
 
 class Vendedor:
 
     def __init__(self):
-        self.lista_de_prod_para_vender = [Fresa(10, "redondeo", 14, 2000, 25321), Mecha(100, 10, "madera", 252525, 1200), Martillo(400, "Construccion", 30, 990, 777890)]
+        self.lista_de_prod_para_vender = [Fresa(10, "redondeo", 14, 2000, 25321), Mecha(100, 10, "madera", 252525, 1200), Caja_Armonizadora(400, "Construccion", 30, 990, 777890)]
         self.productos_vendidos = []
 
     def vender_fresa(self, fresa: Fresa):
@@ -107,7 +124,7 @@ class Vendedor:
         else:
             return "No tenemos {} en stock".format(mecha.tipo)
 
-    def vender_martillo(self, martillo: Martillo):
+    def vender_martillo(self, martillo: Caja_Armonizadora):
         if martillo in self.lista_de_prod_para_vender:
             self.lista_de_prod_para_vender.remove(martillo)
             self.productos_vendidos.append(martillo)
