@@ -1,17 +1,17 @@
 import pyodbc
 import pandas as pd
 
-class Martillo():
-    def __init__(self, peso: int, uso: str, largo_mango: int, precio: int, id: int):
-        self.peso = peso
-        self.uso = uso
-        self.largo_mango = largo_mango
-        self.id = id
-        self.tipo = "Martillo"
+class Armonizador_Giratorio:
+    def __init__(self, cant_tubos: int, acorde: str, precio: int, id: int):
         self.precio = precio
+        self.id = id
+        self.acorde = acorde
+        self.cant_tubos = cant_tubos
+        self.tipo = "Armonizador Giratorio"
+
 
     def __repr__(self):
-        return f"Hola, te traje un martillo para {self.uso}"
+        return f"Este objeto de la tabla es del tipo {self.tipo}, tiene como Id el numero {self.id}, está afinado en {self.acorde}, tiene {self.cant_tubos} y vale {self.precio}"
 
     def establecer_conexion(self):
         # Ingresamos direccion de la DB
@@ -27,44 +27,43 @@ class Martillo():
         return pd.read_sql(sql_statement, cnxn)
 
     def do_command_on_DB(self, sql_statement):
-        #Este metodo hace un comando en la DB (por ej un post)
+        #Este metodo lleva a cabo un comando en la DB (por ej un post)
         cnxn = self.establecer_conexion()
         cursor = cnxn.cursor()
         cursor.execute(sql_statement)
 
-    def post(self, martillo: "Martillo"):
-        self.do_command_on_DB(f"INSERT INTO CRUD.dbo.Martillos ([ID], [Peso], [Uso], [Largo_Mango], [Tipo], [Precio]) VALUES ({martillo.id}, {martillo.peso}, '{martillo.uso}', {martillo.largo_mango}, '{martillo.tipo}', {martillo.precio})")
+    def post(self, armonizador: "Armonizador_Giratorio"):
+        self.do_command_on_DB(f"INSERT INTO CRUD.dbo.Armonizadores ([ID], [Tipo], [Precio], [Acorde], [Cantidad_de_tubos]) VALUES ({armonizador.id}, '{armonizador.tipo}', {armonizador.precio}, '{armonizador.acorde}', {armonizador.cant_tubos})")
 
-    def put(self, martillo: "Martillo"):
-        self.do_command_on_DB(f"UPDATE CRUD.dbo.Martillos SET [ID] = {martillo.id}, [Peso] = {martillo.peso}, [Uso] = '{martillo.uso}',[Largo_Mango] =  {martillo.largo_mango}, [Tipo] = '{martillo.tipo}', [Precio] = {martillo.precio} WHERE [ID] = {martillo.id}")
+    def put(self, armonizador: "Armonizador_Giratorio"):
+        self.do_command_on_DB(f"UPDATE CRUD.dbo.Armonizadores SET [ID] = {armonizador.id}, [Acorde] = {armonizador.acorde}, [Cantidad_de_tubos] = {armonizador.cant_tubos}, WHERE [ID] = {armonizador.id}")
 
-    def delete(self,martillo: "Martillo"):
-        self.do_command_on_DB(f"DELETE FROM CRUD.dbo.Martillos WHERE [ID] = {martillo.id}")
+    def delete(self,armonizador: "Armonizador_Giratorio"):
+        self.do_command_on_DB(f"DELETE FROM CRUD.dbo.Armonizadores WHERE [ID] = {armonizador.id}")
 
     def get(self):
-        #Creamos una lista que alojará los objetos Martillo que trajimos, guardados en la variable data de la linea anterior
-        martillos = []
-        statement = "SELECT * FROM Martillos"
+        #Creamos una lista que alojará los objetos armonizador que trajimos, guardados en la variable data de la linea anterior
+        armonizadores = []
+        statement = "SELECT * FROM Armonizadores"
         data = self.read_from_DB(statement)
         #Creamos el bucle FOR que llenará las propiedades de los Obj Martillo
         for row, values in data.iterrows():
-            identificacion = values["ID"]
-            peso = values["Peso"]
-            largo_mango = values["Largo_Mango"]
-            uso = values["Uso"]
             tipo = values["Tipo"]
             precio = values["Precio"]
-            un_martillo = Martillo(peso, uso, largo_mango, precio, identificacion)
-            martillos.append(un_martillo)
+            identificacion = values["ID"]
+            acorde = values["Acorde"]
+            cantidad_tubos = values["Cantidad_de_tubos"]
+            un_armonizador = Armonizador_Giratorio(cantidad_tubos, acorde, precio, identificacion)
+            armonizadores.append(un_armonizador)
         # Retornamos la lista de Martillos
-        return martillos
+        return armonizadores
 
 
 
-martillo = Martillo(200, "Zapatería", 30, 990, 948756)
-print(martillo.get())
-martillo.delete(martillo)
-print(martillo.get())
+armon = Armonizador_Giratorio(4, "A", 2000, 555000)
+print(armon.get())
+armon.post(armon)
+print(armon.get())
 
 
 # TAREA: VOLVER ESTO UN MODULO
