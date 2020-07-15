@@ -66,7 +66,7 @@ class Stand_Campanas:
         self.notas = notas
         self.precio = precio
 
-    def __eq__(self, other):
+    def __eq__(self, other): 
         id = self.id
         if id == other.id:
             return True
